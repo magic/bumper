@@ -1,16 +1,6 @@
 # @magic/bumper
 
-multiple shell scripts in one cli, simplifying the publishing of npm modules:
-
-* npm install newest dependencies (optional)
-* npm test
-* git tag -a x.x.x
-* bump version in package.json and package-lock.json to x.x.x
-* git commit -m 'bump version to x.x.x'
-* git push && git push --tags
-* npm publish
-
-all run through one cli script with minimal options.
+bump package version, git tag, commit and push, npm test, update, and publish, all in one cli script.
 
 [![NPM version][npm-image]][npm-url]
 [![Linux Build Status][travis-image]][travis-url]
@@ -41,6 +31,9 @@ npm install -g @magic/bumper
 be in a node repository (package.json exists)
 
 ```bash
+magic-bumper --help
+# show a detailed help text
+
 magic-bumper
 # will only output the changes that would be done
 
@@ -56,6 +49,7 @@ magic-bumper --(major|minor|patch)
 magic-bumper --install
 # also delete package-lock.json and node_modules, then npm install to get the newest dependencies.
 # it's slow, but faster then the alternatives that make sure all deps get updated.
+
 ```
 
 ##### changelog
