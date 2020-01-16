@@ -4,6 +4,8 @@ import log from '@magic/log'
 
 import { exec } from '../lib/index.mjs'
 
+const libName = '@magic/bumper.test'
+
 export const test = async state => {
   if (state.noTest) {
     log.warn('TESTS SKIPPED.', 'omit --no-test to run the unit tests.')
@@ -12,7 +14,9 @@ export const test = async state => {
 
   const startTime = log.hrtime()
 
-  const result = await exec('npm run test')
+  const additional = state.verbose ? '' : '-- -p'
+
+  const result = await exec(`npm run test ${additional}`)
 
   if (result.stderr) {
     const stderr = result.stderr
@@ -21,16 +25,19 @@ export const test = async state => {
       .filter(a => a)
 
     if (!is.empty(stderr)) {
-      throw error('tests failed to pass.\n' + stderr.join('\n'), 'E_TESTS_FAIL')
+      const msg = `${libName}: tests failed.\n${stderr.join('\n')}`
+      throw error(msg, 'E_TESTS_FAIL')
     }
   }
 
-  log.info(result.stdout)
+  let stdout = ''
 
-  log.timeTaken(startTime, log.paint.green('tests passed'))
-
-  return {
-    ...state,
-    test: true,
+  if (result.stdout) {
+    const std = result.stdout.split('\n').filter(a => a)
+    stdout = std[std.length - 1]
   }
+
+  log.timeTaken(startTime, log.paint.green('tests took:'), stdout)
+
+  return state
 }

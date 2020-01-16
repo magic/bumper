@@ -4,6 +4,8 @@ import log from '@magic/log'
 
 import { exec } from '../lib/index.mjs'
 
+const libName = '@magic/bumper.diff:'
+
 export const diff = async state => {
   const startTime = log.hrtime()
 
@@ -21,7 +23,7 @@ export const diff = async state => {
     }
 
     err = error(
-      'there are uncomitted changes. Please clean up and then rerun magic-bumper.',
+      `${libName} there are uncomitted changes. Please clean up and then rerun magic-bumper.`,
       'GIT_DIFF',
     )
   }
@@ -32,8 +34,5 @@ export const diff = async state => {
     throw err
   }
 
-  return {
-    ...state,
-    diff: true,
-  }
+  return state
 }
