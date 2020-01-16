@@ -1,6 +1,6 @@
 # @magic/bumper
 
-multiple shell scripts in one cli:
+multiple shell scripts in one cli, simplifying the publishing of npm modules:
 
 * npm install newest dependencies (optional)
 * npm test
