@@ -20,7 +20,7 @@ const cliArgs = {
     '--patch',
     '--alpha',
     '--beta',
-    ['--serious', '--doit'],
+    ['--serious', '--doit', '--shia'],
     ['--update', '--install'],
   ],
   help: {
@@ -42,7 +42,7 @@ magic-bumper --serious
 # git diff, stop if uncomitted files exist
 # npm install, optional, if --update is set
 # npm test, stop if tests fail
-# bump the version number with the lowest priority (patch or alpha)
+# 3bump the version number with the lowest priority (patch or alpha)
 # git commit and git tag it,
 # git push
 # npm publish
@@ -70,7 +70,7 @@ const run = async () => {
 
   try {
     const diff = await exec('git status --short')
-    if (diff) {
+    if (diff.stdout || diff.stderr) {
       throw error(
         'there are uncomitted changes. Please clean up and then rerun magic-bumper.',
         'GIT_DIFF',
@@ -93,7 +93,7 @@ const run = async () => {
         .filter(a => a)
 
       if (!is.empty(stderr)) {
-        log.error('E_TESTS', 'tests failed to pass.')
+        log.error('E_TESTS', 'tests failed to pass.', stderr.join('\n'))
         process.exit(1)
       }
     }
