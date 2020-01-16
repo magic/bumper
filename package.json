@@ -37,7 +37,7 @@
     "@magic/cli": "0.0.17",
     "@magic/error": "0.0.2",
     "@magic/fs": "0.0.3",
-    "@magic/semver": "0.0.2",
+    "@magic/semver": "0.0.3",
     "@magic/types": "0.1.9"
   },
   "devDependencies": {
