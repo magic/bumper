@@ -17,6 +17,7 @@ const cliArgs = {
     ['--dangerNoTest', '--danger-no-test'],
     ['--dangerNoDiff', '--danger-no-diff'],
     ['--verbose', '--loud'],
+    '--cwd'
   ],
   help: {
     name: 'magic-bumper',
@@ -30,6 +31,7 @@ const cliArgs = {
       '--serious': 'actually write to files and publish',
       '--danger-no-test': 'do not run unit tests.',
       '--danger-no-diff': 'do not run git diff.',
+      '--cwd': 'pass a directory to work on.',
     },
     example: `
 magic-bumper
