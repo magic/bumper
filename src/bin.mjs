@@ -18,12 +18,13 @@ const cliArgs = {
     '--major',
     '--minor',
     '--patch',
-    ['--alpha', '--beta'],
+    '--alpha',
+    '--beta',
     ['--serious', '--doit'],
     ['--update', '--install'],
   ],
   help: {
-    name: 'magic-bump',
+    name: 'magic-bumper',
     header: 'bump the version of an npm package, create a git commit and tag, then npm publish.',
     options: {
       '--major': '1.x.x turns to 2.0.0',
@@ -34,7 +35,24 @@ const cliArgs = {
       '--serious': 'actually write to files and publish',
     },
     example: `
+magic-bumper
+# only output the changes that would be done
 
+magic-bumper --serious
+# git diff, stop if uncomitted files exist
+# npm install, optional, if --update is set
+# npm test, stop if tests fail
+# bump the version number with the lowest priority (patch or alpha)
+# git commit and git tag it,
+# git push
+# npm publish
+
+magic-bumper --(major|minor|patch)
+# bump the version specified.
+
+magic-bumper --install
+# also delete package-lock.json and node_modules, then npm install to get the newest dependencies.
+# it's slow, but faster then the alternatives that make sure all deps get updated.
 `,
   },
 }
