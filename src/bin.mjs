@@ -1,17 +1,9 @@
 #!/usr/bin/env node
 
 import cli from '@magic/cli'
-import is from '@magic/types'
-import error from '@magic/error'
 import log from '@magic/log'
-import fs from '@magic/fs'
 
-import bump from './index.mjs'
-
-import util from 'util'
-import child_process from 'child_process'
-
-const exec = util.promisify(child_process.exec)
+import bumper from './index.mjs'
 
 const cliArgs = {
   options: [
@@ -22,6 +14,9 @@ const cliArgs = {
     '--beta',
     ['--serious', '--doit', '--shia'],
     ['--update', '--install'],
+    ['--dangerNoTest', '--danger-no-test'],
+    ['--dangerNoDiff', '--danger-no-diff'],
+    ['--verbose', '--loud'],
   ],
   help: {
     name: 'magic-bumper',
@@ -33,6 +28,8 @@ const cliArgs = {
       '--alpha': '0.0.3-(alpha|beta).0 turns into 0.0.3-(alpha|beta).4',
       '--update': 'also install the newest version of all dependencies',
       '--serious': 'actually write to files and publish',
+      '--danger-no-test': 'do not run unit tests.',
+      '--danger-no-diff': 'do not run git diff.',
     },
     example: `
 magic-bumper
@@ -69,43 +66,9 @@ const run = async () => {
   }
 
   try {
-    const diff = await exec('git status --short')
-    if (diff.stdout || diff.stderr) {
-      throw error(
-        'there are uncomitted changes. Please clean up and then rerun magic-bumper.',
-        'GIT_DIFF',
-      )
-    }
+    const result = await bumper(args)
 
-    if (args.update) {
-      await fs.rmrf('package-lock.json')
-      await fs.rmrf('node_modules')
-
-      await cli.exec('npm install')
-    }
-
-    const result = await exec('npm run test')
-
-    if (result.stderr) {
-      const stderr = result.stderr
-        .split('\n')
-        .filter(a => !a.includes('ExperimentalWarning: The ESM module loader is experimental.'))
-        .filter(a => a)
-
-      if (!is.empty(stderr)) {
-        log.error('E_TESTS', 'tests failed to pass.', stderr.join('\n'))
-        process.exit(1)
-      }
-    }
-
-    log(log.paint.green('tests passed'))
-    log.info(result.stdout)
-
-    const version = await bump(args)
-
-    log.success(log.paint.green('bumped version'), version)
-
-    log.timeTaken(startTime, 'publishing took a total of:')
+    log.success('bumper finished.')
   } catch (e) {
     log.error(e.code || e.name, e.message)
   }
