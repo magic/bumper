@@ -20,7 +20,7 @@ const cliArgs = {
     '--patch',
     ['--alpha', '--beta'],
     ['--serious', '--doit'],
-    '--install',
+    ['--update', '--install'],
   ],
   help: {
     name: 'magic-bump',
@@ -30,7 +30,7 @@ const cliArgs = {
       '--minor': '0.1.x turns to 0.2.0',
       '--patch': '0.0.3 turns into 0.0.4',
       '--alpha': '0.0.3-(alpha|beta).0 turns into 0.0.3-(alpha|beta).4',
-      '--install': 'also install the newest version of all dependencies',
+      '--update': 'also install the newest version of all dependencies',
       '--serious': 'actually write to files and publish',
     },
     example: `
@@ -59,7 +59,7 @@ const run = async () => {
       )
     }
 
-    if (args.install) {
+    if (args.update) {
       await fs.rmrf('package-lock.json')
       await fs.rmrf('node_modules')
 
