@@ -9,10 +9,6 @@ import semver from '@magic/semver'
 const libName = '@magic/bumper.prepare:'
 
 export const prepare = async (state = {}) => {
-  if (!is.object(state)) {
-    throw error(`${libName} expected state to be an object`, 'E_STATE_TYPE')
-  }
-
   const startTime = log.hrtime()
 
   // state.cwd might be set from the cli
