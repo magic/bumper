@@ -15,7 +15,7 @@ export const bumper = async props => {
   const { args, commands } = props
 
   let state = {
-    ...args,
+    args,
     commands,
   }
 
@@ -25,7 +25,7 @@ export const bumper = async props => {
   state = await tasks.prepare(state)
 
   // git diff, stop if uncomitted changes exist
-  if (!state.dangerNoDiff) {
+  if (!state.args.dangerNoDiff) {
     state = await tasks.diff(state)
   }
 
@@ -37,19 +37,16 @@ export const bumper = async props => {
   }
 
   // npm run test, stop if error
-  if (!state.dangerNoTests) {
+  if (!state.args.dangerNoTests) {
     state = await tasks.test(state)
+  } else {
+    log.warn('TESTS SKIPPED.', 'omit --danger-no-test to run the unit tests.')
   }
 
   // read package.json, bump the version.
   if (commands.version) {
     state = await tasks.bump(state)
   }
-
-  // actually write files to disk.
-  // if (commands.write) {
-  //   state = await tasks.write(state)
-  // }
 
   log.timeTaken(startTime, 'publishing took a total of:')
 }
