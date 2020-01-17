@@ -16,6 +16,8 @@ const cliArgs = {
     ['--dangerNoDiff', '--danger-no-diff'],
     ['--no-bump', '--freeze'],
     ['--verbose', '--loud'],
+    '--dev-deps',
+    '--prod-deps',
     '--cwd',
   ],
   commands: [
@@ -42,6 +44,8 @@ const cliArgs = {
       '--danger-no-test': 'do not run unit tests.',
       '--danger-no-diff': 'do not run git diff.',
       '--cwd': 'pass a directory to work on.',
+      '--dev-deps': 'only update dev dependencies',
+      '--prod-deps': 'only update prod dependencies',
     },
     default: {
       '--cwd': process.cwd(),
