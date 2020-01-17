@@ -16,13 +16,15 @@ export const update = async state => {
   await fs.rmrf('package-lock.json')
   await fs.rmrf('node_modules')
 
-  const { stdout, stderr } = await exec('npm install')
-  if (stderr) {
-    if (!stderr.includes('npm notice created a lockfile')) {
-      throw error(stderr, 'E_NPM_INSTALL')
+  if (state.commands.write) {
+    const { stdout, stderr } = await exec('npm install')
+    if (stderr) {
+      if (!stderr.includes('npm notice created a lockfile')) {
+        throw error(stderr, 'E_NPM_INSTALL')
+      }
+    } else if (stdout) {
+      log('stdout',stdout)
     }
-  } else if (stdout) {
-    log.info(stdout)
   }
 
   log.timeTaken(startTime, log.paint.green('npm update took'))
