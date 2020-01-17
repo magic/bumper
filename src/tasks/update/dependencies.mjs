@@ -12,10 +12,6 @@ import { stringifyDependencies } from './stringifyDependencies.mjs'
 const libName = '@magic/bumper.update.dependencies:'
 
 export const updateDependencies = async (state = {}) => {
-  if (!is.object(state)) {
-    throw error(`${libName} expected state to be an object`, 'E_STATE_TYPE')
-  }
-
   const startTime = log.hrtime()
 
   const { dependencies, devDependencies } = state.pkg
