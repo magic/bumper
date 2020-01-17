@@ -58,7 +58,7 @@ export const write = async state => {
     await fs.writeFile(pkgFile, JSON.stringify(pkg, null, 2))
 
     if (!is.empty(lock) && !is.empty(lockFile)) {
-      await fs.writeFile(lockFile, JSON.stringify(lock, null, 2))
+      await fs.writeFile(lockFile, JSON.stringify(lock, null, 2).trim())
     }
   }
 
