@@ -21,10 +21,11 @@ const cliArgs = {
     '--cwd',
   ],
   commands: [
-    ['git', 'g'],
+    ['git', 'merge', 'm'],
     ['update', 'up', 'u'],
-    ['version', 'v'],
-    ['write', 'doit', 'w'],
+    ['version', 'bump', 'b'],
+    ['write', 'prod', 'p'],
+    ['bump', 'all'],
   ],
   help: {
     name: 'magic-bump',
@@ -34,6 +35,7 @@ const cliArgs = {
       update: 'force update all dependencies.',
       version: 'bump version',
       write: 'actually write changes to files.',
+      bump: 'run all tasks',
     },
     options: {
       '--major': '1.x.x turns to 2.0.0',
