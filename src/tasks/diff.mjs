@@ -34,7 +34,10 @@ please clean up and then rerun magic-bumper.
 
   log.timeTaken(startTime, log.paint.green('diff took'))
 
-  if (is.error(err)) {
+  // note that state.dangerNoDiff will not be set by default,
+  // state.args.dangerNoDiff is.
+  // this means that this function can be silenced by passing dangerNoDiff.
+  if (is.error(err) && !state.dangerNoDiff) {
     log.error(err.code, err.message)
     process.exit(1)
   }
