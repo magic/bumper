@@ -12,23 +12,30 @@ const cliArgs = {
     '--patch',
     '--alpha',
     '--beta',
-    ['--serious', '--doit', '--just-do-it', '--shia'],
-    ['--update', '--install', '--up'],
     ['--dangerNoTest', '--danger-no-test'],
     ['--dangerNoDiff', '--danger-no-diff'],
     ['--no-bump', '--freeze'],
     ['--verbose', '--loud'],
     '--cwd',
   ],
+  commands: [
+    ['version', 'v'],
+    ['update', 'up', 'u'],
+    ['write', 'doit', 'w']
+  ],
   help: {
-    name: 'magic-bumper',
+    name: 'magic-bump',
     header: 'bump the version of an npm package, create a git commit and tag, then npm publish.',
+    commands: {
+      version: 'bump version',
+      update: 'force update all dependencies.',
+      write: 'actually write changes to files.',
+    },
     options: {
       '--major': '1.x.x turns to 2.0.0',
       '--minor': '0.1.x turns to 0.2.0',
       '--patch': '0.0.3 turns into 0.0.4',
-      '--alpha': '0.0.3-(alpha|beta).0 turns into 0.0.3-(alpha|beta).4',
-      '--update': 'also install the newest version of all dependencies',
+      '--alpha': '0.0.3-(alpha|beta).0 turns into 0.0.3-(alpha|beta).1',
       '--serious': 'actually write to files and publish',
       '--danger-no-test': 'do not run unit tests.',
       '--danger-no-diff': 'do not run git diff.',
@@ -38,10 +45,10 @@ const cliArgs = {
       '--cwd': process.cwd(),
     },
     example: `
-magic-bumper
+magic-bumper version update
 # only output the changes that would be done
 
-magic-bumper --serious
+magic-bumper version update doit
 # git diff, stop if uncomitted files exist
 # npm install, optional, if --update is set
 # npm test, stop if tests fail
@@ -63,7 +70,7 @@ magic-bumper --install
 const run = async () => {
   const startTime = log.hrtime()
 
-  const { args } = cli(cliArgs)
+  const { args, commands } = cli(cliArgs)
 
   if (args.verbose) {
     log.setLevel(0)
@@ -72,11 +79,11 @@ const run = async () => {
   }
 
   try {
-    const result = await bumper(args)
+    const result = await bumper({ args, commands })
 
     log.success('bumper finished.')
   } catch (e) {
-    log.error(e.code || e.name, e.message)
+    log.error(e.code || e.name, e.message, e.stack)
   }
 }
 

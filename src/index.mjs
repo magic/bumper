@@ -11,7 +11,11 @@ import tasks from './tasks/index.mjs'
 
 const libName = '@magic/bumper:'
 
-export const bumper = async state => {
+export const bumper = async props => {
+  const { args, commands } = props
+
+  let state = args
+
   const startTime = log.hrtime()
 
   // read package.json and package-lock.json, initiate state
@@ -25,7 +29,7 @@ export const bumper = async state => {
   // check for dependency updates,
   // update package.json versions with newest dependency versions.
   // rm package-lock.json node_modules && npm install
-  if (state.update) {
+  if (commands.update) {
     state = await tasks.update(state)
   }
 
@@ -35,12 +39,14 @@ export const bumper = async state => {
   }
 
   // read package.json, bump the version.
-  if (!state.noBump) {
+  if (commands.version) {
     state = await tasks.bump(state)
   }
 
   // actually write files to disk.
-  state = await tasks.write(state)
+  if (commands.write) {
+    state = await tasks.write(state)
+  }
 
   log.timeTaken(startTime, 'publishing took a total of:')
 }
