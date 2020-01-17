@@ -35,7 +35,7 @@ export const prepare = async (state = {}) => {
 
   state.version = {
     old: state.pkg.version,
-    new: semver.bump(state.pkg.version),
+    new: semver.bump(state.pkg.version, state.args),
   }
 
   // package-lock.json
