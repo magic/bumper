@@ -13,7 +13,7 @@ export const diff = async state => {
 
   const { stdout, stderr } = await exec('git status --short')
 
-  if (diff.stdout || diff.stderr) {
+  if (stdout || stderr) {
     if (stdout) {
       log.info(stdout)
     }
