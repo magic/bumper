@@ -30,6 +30,10 @@ export const bump = async state => {
 
   if (state.commands.write) {
     await fs.writeFile(state.pkgFile, JSON.stringify(state.pkg, null, 2))
+
+    if (!is.empty(state.lock)) {
+      await fs.writeFile(state.lockFile, JSON.stringify(state.lock, null, 2))
+    }
   }
 
   const logMsgHeader = log.paint.green('bump version')
