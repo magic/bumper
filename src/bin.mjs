@@ -19,16 +19,18 @@ const cliArgs = {
     '--cwd',
   ],
   commands: [
-    ['version', 'v'],
+    ['git', 'g'],
     ['update', 'up', 'u'],
-    ['write', 'doit', 'w']
+    ['version', 'v'],
+    ['write', 'doit', 'w'],
   ],
   help: {
     name: 'magic-bump',
     header: 'bump the version of an npm package, create a git commit and tag, then npm publish.',
     commands: {
-      version: 'bump version',
+      git: 'commit and push changes and tags using git',
       update: 'force update all dependencies.',
+      version: 'bump version',
       write: 'actually write changes to files.',
     },
     options: {
