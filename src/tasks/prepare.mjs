@@ -15,6 +15,7 @@ export const prepare = async (state = {}) => {
 
   const startTime = log.hrtime()
 
+  // state.cwd might be set from the cli
   state.cwd = state.cwd || process.cwd()
 
   // package.json
@@ -38,7 +39,7 @@ export const prepare = async (state = {}) => {
   }
 
   // package-lock.json
-  state.lockFile = path.join(state.cwd, 'package.json')
+  state.lockFile = path.join(state.cwd, 'package-lock.json')
 
   const lockExists = await fs.exists(state.lockFile)
   if (!lockExists) {
@@ -51,11 +52,17 @@ export const prepare = async (state = {}) => {
   state.lock = JSON.parse(pkgLockContent)
 
   if (!semver.isSemver(state.lock.version)) {
-    throw error(`${libName} package-lock.json version is not a valid semver.`, 'E_PKG_LOCK_VERSION_TYPE')
+    throw error(
+      `${libName} package-lock.json version is not a valid semver.`,
+      'E_PKG_LOCK_VERSION_TYPE',
+    )
   }
 
   if (state.lock.version !== state.pkg.version) {
-    throw error(`${libName}: package.json and package-lock.json versions are different.`, 'E_VERSION_MISMATCH')
+    throw error(
+      `${libName}: package.json and package-lock.json versions are different.`,
+      'E_VERSION_MISMATCH',
+    )
   }
 
   log.timeTaken(startTime, log.paint.green('prepare'))
