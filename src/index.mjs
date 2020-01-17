@@ -14,7 +14,10 @@ const libName = '@magic/bumper:'
 export const bumper = async props => {
   const { args, commands } = props
 
-  let state = args
+  let state = {
+    ...args,
+    commands,
+  }
 
   const startTime = log.hrtime()
 
