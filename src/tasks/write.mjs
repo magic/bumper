@@ -23,18 +23,18 @@ export const write = async state => {
 
   const { pkg, pkgFile, lock, lockFile, version } = state
 
-  if (!is.string(pkg)) {
-    throw error(`${libName} expected state.pkg to be a string`, 'E_PKG_STRING_TYPE')
+  if (!is.object(pkg)) {
+    throw error(`${libName} expected state.pkg to be a object`, 'E_PKG_STRING_TYPE')
   }
 
   if (!is.string(pkgFile)) {
     throw error(`${libName} expected state.pkgFile to be a string`, 'E_PKG_STRING_TYPE')
   }
 
-  const pkgExists = await fs.exists(pkg.path)
+  const pkgExists = await fs.exists(pkgFile)
   if (!pkgExists) {
     throw error(
-      `${libName} expected state.pkg.path to point to an existing package.json file`,
+      `${libName} expected state.pkgFile to point to an existing package.json file`,
       'E_PKG_FILE_MISSING',
     )
   }
@@ -54,13 +54,11 @@ export const write = async state => {
   const startTime = log.hrtime()
 
   // only write package.json if the user is serious. this is serious.
-  if (args.serious) {
-    // await fs.writeFile(pkg.file, pkg.string)
-
+  if (state.serious) {
+    await fs.writeFile(pkgFile, JSON.stringify(pkg, null, 2))
 
     if (!is.empty(lock) && !is.empty(lockFile)) {
-      console.log('would have written', lockFile)
-      // await fs.writeFile(lockFile, lock)
+      await fs.writeFile(lockFile, JSON.stringify(lock, null, 2))
     }
   }
 
