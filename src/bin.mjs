@@ -16,6 +16,7 @@ const cliArgs = {
     ['--update', '--install', '--up'],
     ['--dangerNoTest', '--danger-no-test'],
     ['--dangerNoDiff', '--danger-no-diff'],
+    ['--no-bump', '--freeze'],
     ['--verbose', '--loud'],
     '--cwd',
   ],

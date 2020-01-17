@@ -35,7 +35,9 @@ export const bumper = async state => {
   }
 
   // read package.json, bump the version.
-  state = await tasks.bump(state)
+  if (!state.noBump) {
+    state = await tasks.bump(state)
+  }
 
   // actually write files to disk.
   state = await tasks.write(state)
