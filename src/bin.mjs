@@ -12,8 +12,8 @@ const cliArgs = {
     '--patch',
     '--alpha',
     '--beta',
-    ['--serious', '--doit', '--shia'],
-    ['--update', '--install'],
+    ['--serious', '--doit', '--just-do-it', '--shia'],
+    ['--update', '--install', '--up'],
     ['--dangerNoTest', '--danger-no-test'],
     ['--dangerNoDiff', '--danger-no-diff'],
     ['--verbose', '--loud'],
@@ -44,7 +44,7 @@ magic-bumper --serious
 # git diff, stop if uncomitted files exist
 # npm install, optional, if --update is set
 # npm test, stop if tests fail
-# 3bump the version number with the lowest priority (patch or alpha)
+# bump the version number with the lowest priority (patch or alpha)
 # git commit and git tag it,
 # git push
 # npm publish
