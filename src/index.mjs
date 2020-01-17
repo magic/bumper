@@ -47,9 +47,9 @@ export const bumper = async props => {
   }
 
   // actually write files to disk.
-  if (commands.write) {
-    state = await tasks.write(state)
-  }
+  // if (commands.write) {
+  //   state = await tasks.write(state)
+  // }
 
   log.timeTaken(startTime, 'publishing took a total of:')
 }
