@@ -45,13 +45,9 @@ export const updateDependencies = async (state = {}) => {
   state.pkg.dependencies = newDependencies
   state.pkg.devDependencies = newDevDependencies
 
-  // only write package.json and package-lock.json if the user wants to write.
+  // make sure user wants to write
   if (state.commands.write) {
     await fs.writeFile(state.pkgFile, JSON.stringify(state.pkg, null, 2))
-
-    if (!is.empty(state.lock) && !is.empty(lockFile)) {
-      await fs.writeFile(state.lockFile, JSON.stringify(state.lock, null, 2))
-    }
   }
 
   log.timeTaken(startTime, log.paint.green('updateDependencies'))
