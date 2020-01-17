@@ -48,6 +48,12 @@ export const bumper = async props => {
     state = await tasks.bump(state)
   }
 
+  if (commands.merge) {
+    state = await tasks.commit(state)
+
+    // state = await tasks.push(state)
+  }
+
   log.timeTaken(startTime, 'publishing took a total of:')
 }
 

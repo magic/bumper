@@ -28,14 +28,15 @@ ${libName} there are uncomitted changes.
 to prevent data corruption, magic-bumper will not work on an unclean workspace.
 please clean up and then rerun magic-bumper.
 `.trim(),
-      'GIT_DIFF',
+      'git diff',
     )
   }
 
   log.timeTaken(startTime, log.paint.green('diff took'))
 
   if (is.error(err)) {
-    throw err
+    log.error(err.code, err.message)
+    process.exit(1)
   }
 
   return state

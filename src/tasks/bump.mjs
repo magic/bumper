@@ -13,7 +13,8 @@ export const bump = async state => {
     state.lock.version = version.new
   }
 
-  if (state.commands.write) {
+  // make sure user wants to publish
+  if (state.commands.publish && !state.args.noWrite) {
     await fs.writeFile(state.pkgFile, JSON.stringify(state.pkg, null, 2))
 
     if (!is.empty(state.lock)) {

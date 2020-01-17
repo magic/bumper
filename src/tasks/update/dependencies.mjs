@@ -30,7 +30,7 @@ export const updateDependencies = async (state = {}) => {
   })
 
   if (updatedDependencies.length) {
-    let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
+    let updated = state.commands.update ? log.paint.green('updated') : log.paint.red('outdated')
     log(`\n${updated} dependencies`)
     log(updatedDependencies)
   }
@@ -44,7 +44,7 @@ export const updateDependencies = async (state = {}) => {
   })
 
   if (updatedDevDependencies.length) {
-    let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
+    let updated = state.commands.update ? log.paint.green('updated') : log.paint.red('outdated')
     log(`\n${updated} devDependencies`)
     log(updatedDevDependencies)
   }
@@ -52,8 +52,8 @@ export const updateDependencies = async (state = {}) => {
   state.pkg.dependencies = newDependencies
   state.pkg.devDependencies = newDevDependencies
 
-  // make sure user wants to write
-  if (state.commands.write) {
+  // make sure user wants to update
+  if (state.commands.update && !state.args.noWrite) {
     await fs.writeFile(state.pkgFile, JSON.stringify(state.pkg, null, 2))
   }
 
