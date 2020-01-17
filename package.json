@@ -6,6 +6,7 @@
   "license": "AGPL-3.0",
   "homepage": "https://magic.github.io/bumper",
   "main": "src/index.mjs",
+  "private": true,
   "bin": {
     "magic-bump": "src/bin.mjs",
     "magic-bumper": "src/bin.mjs"
