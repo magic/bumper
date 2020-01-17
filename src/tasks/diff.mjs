@@ -23,7 +23,11 @@ export const diff = async state => {
     }
 
     err = error(
-      `${libName} there are uncomitted changes. Please clean up and then rerun magic-bumper.`,
+      `
+${libName} there are uncomitted changes.
+magic-bumper will not work on an unclean workspace.
+please clean up and then rerun magic-bumper.
+`.trim(),
       'GIT_DIFF',
     )
   }
