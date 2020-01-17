@@ -18,20 +18,26 @@ export const bumper = async state => {
   state = await tasks.prepare(state)
 
   // git diff, stop if uncomitted changes exist
-  state = await tasks.diff(state)
+  if (!state.dangerNoDiff) {
+    state = await tasks.diff(state)
+  }
 
-  // check for dependency updates, update package.json versions with newest dependency versions.
-  state = await tasks.updateDependencies(state)
-
+  // check for dependency updates,
+  // update package.json versions with newest dependency versions.
   // rm package-lock.json node_modules && npm install
-  state = await tasks.update(state)
+  if (state.update) {
+    state = await tasks.update(state)
+  }
 
   // npm run test, stop if error
-  state = await tasks.test(state)
+  if (!state.dangerNoTests) {
+    state = await tasks.test(state)
+  }
 
   // read package.json, bump the version.
   state = await tasks.bump(state)
 
+  // actually write files to disk.
   state = await tasks.write(state)
 
   log.timeTaken(startTime, 'publishing took a total of:')
