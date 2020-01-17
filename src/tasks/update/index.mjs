@@ -13,10 +13,15 @@ export const update = async state => {
 
   log('installing dependencies')
 
-  await fs.rmrf('package-lock.json')
-  await fs.rmrf('node_modules')
 
   if (state.commands.write) {
+    // remove package-lock and node_modules dir.
+    // TODO: benchmark diff between this approach
+    // and instead running tasks/updateDependencies && npm update && npm install
+    // also make sure this catches all dependencies.
+    await fs.rmrf('package-lock.json')
+    await fs.rmrf('node_modules')
+
     const { stdout, stderr } = await exec('npm install')
     if (stderr) {
       if (!stderr.includes('npm notice created a lockfile')) {
