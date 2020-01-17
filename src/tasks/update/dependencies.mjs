@@ -23,7 +23,11 @@ export const updateDependencies = async (state = {}) => {
   const dependencyNames = Object.keys(dependencies)
   const newDependencies = await makeRequests(dependencyNames)
 
-  const updatedDependencies = stringifyDependencies({ state, old: dependencies, new: newDependencies })
+  const updatedDependencies = stringifyDependencies({
+    state,
+    old: dependencies,
+    new: newDependencies,
+  })
 
   if (updatedDependencies.length) {
     let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
@@ -34,7 +38,10 @@ export const updateDependencies = async (state = {}) => {
   const devDependencyNames = Object.keys(devDependencies)
   const newDevDependencies = await makeRequests(devDependencyNames)
 
-  const updatedDevDependencies = stringifyDependencies({ old: devDependencies, new: newDevDependencies })
+  const updatedDevDependencies = stringifyDependencies({
+    old: devDependencies,
+    new: newDevDependencies,
+  })
 
   if (updatedDevDependencies.length) {
     let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')

@@ -25,7 +25,7 @@ export const update = async state => {
         throw error(stderr, 'E_NPM_INSTALL')
       }
     } else if (stdout) {
-      log('stdout',stdout)
+      log('stdout', stdout)
     }
   }
 
