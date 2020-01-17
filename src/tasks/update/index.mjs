@@ -29,7 +29,7 @@ export const update = async state => {
     }
   }
 
-  log.timeTaken(startTime, log.paint.green('npm update took'))
+  log.timeTaken(startTime, log.paint.green('npm update'))
 
   return state
 }

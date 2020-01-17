@@ -28,20 +28,33 @@ export const updateDependencies = async (state = {}) => {
     .join('\n')
 
   if (updatedDependencies.length) {
-    log('\nupdated dependencies')
+    let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
+    log(`\n${updated} dependencies`)
     log(updatedDependencies)
   }
 
   const devDependencyNames = Object.keys(devDependencies)
   const newDevDependencies = await makeRequests(devDependencyNames)
 
+  let longestDepDependencyName = 0
   const updatedDevDependencies = Object.entries(newDevDependencies)
     .filter(([k, v]) => v > devDependencies[k])
-    .map(([key, val]) => `${key}: ${devDependencies[key]} >> ${val}`)
+    .map(([k,v]) => {
+      if (k.length > longestDepDependencyName) {
+        longestDepDependencyName = k.length
+      }
+
+      return [k, v]
+    })
+    .map(([key, val]) => {
+      console.log({k:key.length, longestDepDependencyName});
+      return `${key}: ${devDependencies[key]} >> ${val}`
+    })
     .join('\n')
 
   if (updatedDependencies.length) {
-    log('\nupdated devDependencies:')
+    let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
+    log(`\n${updated} devDependencies`)
     log(updatedDevDependencies)
   }
 
