@@ -8,7 +8,7 @@ import semver from '@magic/semver'
 
 import { makeRequests } from './makeRequests.mjs'
 
-const libName = '@magic/bumper.updateDependencies:'
+const libName = '@magic/bumper.update.dependencies:'
 
 export const updateDependencies = async (state = {}) => {
   if (!is.object(state)) {
@@ -47,6 +47,15 @@ export const updateDependencies = async (state = {}) => {
 
   state.pkg.dependencies = newDependencies
   state.pkg.devDependencies = newDevDependencies
+
+  // only write package.json and package-lock.json if the user wants to write.
+  if (state.commands.write) {
+    await fs.writeFile(pkgFile, JSON.stringify(pkg, null, 2))
+
+    if (!is.empty(lock) && !is.empty(lockFile)) {
+      await fs.writeFile(lockFile, JSON.stringify(lock, null, 2))
+    }
+  }
 
   log.timeTaken(startTime, log.paint.green('updateDependencies'))
 
