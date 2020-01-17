@@ -1,6 +1,6 @@
 export const stringifyDependencies = (deps, longestName = 0, longestVersion = 0) =>
   Object.entries(deps.new)
-    .filter(([k, v]) => v > deps.old[k])
+    .filter(([k]) => deps.new[k] > deps.old[k])
     .map(([k, v]) => {
       if (k.length > longestName) {
         longestName = k.length
