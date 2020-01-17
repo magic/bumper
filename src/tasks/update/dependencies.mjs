@@ -7,6 +7,7 @@ import log from '@magic/log'
 import semver from '@magic/semver'
 
 import { makeRequests } from './makeRequests.mjs'
+import { stringifyDependencies } from './stringifyDependencies.mjs'
 
 const libName = '@magic/bumper.update.dependencies:'
 
@@ -22,10 +23,7 @@ export const updateDependencies = async (state = {}) => {
   const dependencyNames = Object.keys(dependencies)
   const newDependencies = await makeRequests(dependencyNames)
 
-  const updatedDependencies = Object.entries(newDependencies)
-    .filter(([k, v]) => v > dependencies[k])
-    .map(([key, val]) => `${key}: ${dependencies[key]} >> ${val}`)
-    .join('\n')
+  const updatedDependencies = stringifyDependencies({ state, old: dependencies, new: newDependencies })
 
   if (updatedDependencies.length) {
     let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
@@ -36,23 +34,9 @@ export const updateDependencies = async (state = {}) => {
   const devDependencyNames = Object.keys(devDependencies)
   const newDevDependencies = await makeRequests(devDependencyNames)
 
-  let longestDepDependencyName = 0
-  const updatedDevDependencies = Object.entries(newDevDependencies)
-    .filter(([k, v]) => v > devDependencies[k])
-    .map(([k,v]) => {
-      if (k.length > longestDepDependencyName) {
-        longestDepDependencyName = k.length
-      }
+  const updatedDevDependencies = stringifyDependencies({ old: devDependencies, new: newDevDependencies })
 
-      return [k, v]
-    })
-    .map(([key, val]) => {
-      console.log({k:key.length, longestDepDependencyName});
-      return `${key}: ${devDependencies[key]} >> ${val}`
-    })
-    .join('\n')
-
-  if (updatedDependencies.length) {
+  if (updatedDevDependencies.length) {
     let updated = state.commands.write ? log.paint.green('updated') : log.paint.red('outdated')
     log(`\n${updated} devDependencies`)
     log(updatedDevDependencies)
