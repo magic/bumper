@@ -28,10 +28,9 @@ export const bump = async state => {
     state.lock.version = version.new
   }
 
-  const logMsg = [
-    log.paint.green('bump version'),
-    `from ${version.old} to ${version.new}`,
-  ].join(' ')
+  const logMsg = [log.paint.green('bump version'), `from ${version.old} to ${version.new}`].join(
+    ' ',
+  )
   log.timeTaken(startTime, logMsg)
 
   return state
