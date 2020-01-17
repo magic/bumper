@@ -19,16 +19,18 @@ export const bump = async state => {
 
   const startTime = log.hrtime()
 
+  const { version } = state
+
   // package.json
-  state.pkg.version = state.version.new
+  state.pkg.version = version.new
 
   if (!is.empty(state.lock)) {
-    state.lock.version = state.version.new
+    state.lock.version = version.new
   }
 
   const logMsg = [
     log.paint.green('bump version'),
-    `from ${state.version.old} to ${state.version.new}`,
+    `from ${version.old} to ${version.new}`,
   ].join(' ')
   log.timeTaken(startTime, logMsg)
 
