@@ -7,11 +7,6 @@ import { exec } from '../lib/index.mjs'
 const libName = '@magic/bumper.test'
 
 export const test = async state => {
-  if (state.noTest) {
-    log.warn('TESTS SKIPPED.', 'omit --no-test to run the unit tests.')
-    return
-  }
-
   const startTime = log.hrtime()
 
   const additional = state.verbose ? '' : '-- -p'
