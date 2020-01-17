@@ -11,9 +11,6 @@ export const update = async state => {
 
   state = await updateDependencies(state)
 
-  log('installing dependencies')
-
-
   if (state.commands.write) {
     // remove package-lock and node_modules dir.
     // TODO: benchmark diff between this approach
