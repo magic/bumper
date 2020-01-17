@@ -25,7 +25,7 @@ export const diff = async state => {
     err = error(
       `
 ${libName} there are uncomitted changes.
-magic-bumper will not work on an unclean workspace.
+to prevent data corruption, magic-bumper will not work on an unclean workspace.
 please clean up and then rerun magic-bumper.
 `.trim(),
       'GIT_DIFF',
