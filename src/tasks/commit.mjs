@@ -41,7 +41,7 @@ this error can not be ignored using a cli flag.
     throw error(`version can not be reduced. old: ${v.old} new: ${v.new}`, 'E_DEBUMP_VERSION')
   }
 
-  const commitArgs = ['commit', '-m', `\'bump version to ${v.new}\'`, './package.json', './package-lock.json']
+  const commitArgs = ['commit', '-m', `'bump version to ${v.new}'`, './package.json', './package-lock.json']
 
   const comm = await exec('git', commitArgs, { silent: false })
   console.log('commit done', comm)
