@@ -9,42 +9,27 @@ const libName = '@magic/bumper.diff:'
 export const diff = async state => {
   const startTime = log.hrtime()
 
-  let err = false
-
-  const { stdout, stderr } = await exec('git status --short')
-
-  if (stdout || stderr) {
-    if (stdout) {
-      log.info(stdout)
-    }
-
-    if (stderr) {
-      log.info(stderr)
-    }
-
-    err = error(
-      `
-${libName} there are uncomitted changes.
-to prevent data corruption, magic-bumper will not work on an unclean workspace.
-please clean up and then rerun magic-bumper.
-`.trim(),
-      'git diff',
-    )
-  }
+  let err = await exec('git -c color.ui=always status --short', { silent: true })
 
   log.timeTaken(startTime, log.paint.green('diff took'))
 
   // note that state.dangerNoDiff will not be set by default,
   // state.args.dangerNoDiff is.
-  // this means that this function can be silenced by passing dangerNoDiff.
-  if (is.error(err)) {
+  // this means that this function can be silenced by passing dangerNoDiff,
+  // in which case the stdout will be cleansed and used to populate state.diff
+  if (err) {
     if (state.dangerNoDiff) {
-      state.diff = stdout
-          .trim()
-          .split('\n')
-          .map(t => t.trim().substr(2))
-
+      state.diff = err.trim().split('\n')
     } else {
+      err = error(
+        `
+  ${libName} there are uncomitted changes.
+  to prevent data corruption, magic-bumper will not work on an unclean workspace.
+  please clean up and then rerun magic-bumper.
+  `.trim(),
+        'git diff',
+      )
+
       log.error(err.code, err.message)
       process.exit(1)
     }
