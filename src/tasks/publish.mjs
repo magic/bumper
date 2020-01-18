@@ -38,8 +38,7 @@ this error can not be ignored using a cli flag.
 
   log.warn('W_TODO', 'add actual npm publish')
 
-  const err = await exec('npm', ['publish'])
-  console.log({ err })
+  await exec('npm', ['publish'], { silent: false })
 
   log.timeTaken(startTime, log.paint.green('npm publish'))
 
