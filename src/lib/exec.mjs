@@ -30,6 +30,10 @@ export const exec = (cmd, args = [], options = {}) => {
 
   child.stderr.on('data', data => {
     const str = data.toString()
+    if (str.includes('ExperimentalWarning: The ESM module loader is experimental')) {
+      return
+    }
+
     if (str) {
       if (!silent) {
         log.error('E_EXEC_CHILD', str)
