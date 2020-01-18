@@ -1,4 +1,58 @@
-import util from 'util'
 import child_process from 'child_process'
 
-export const exec = util.promisify(child_process.exec)
+import log from '@magic/log'
+import error from '@magic/error'
+
+export const options = {
+  windowsHide: true,
+  encoding: 'utf8',
+  // stdio: '',
+  // shell: '/bin/bash',
+}
+
+export const exec = (cmd, options = {}) => {
+  const { silent = true } = options
+
+  const [command, ...args] = cmd.split(' ').filter(a => a)
+
+  const child = child_process.spawn(command, args, options)
+
+  let stdout = ''
+  let stderr = ''
+
+  child.stdout.on('data', data => {
+    const str = data.toString()
+    if (str) {
+      if (!silent) {
+        log.info(str)
+      }
+    }
+    stdout += str
+  })
+
+  child.stderr.on('data', data => {
+    const str = data.toString()
+    if (str) {
+      if (!silent) {
+        log.error('E_EXEC_CHILD', str)
+      }
+    }
+    stderr += str
+  })
+
+  const promise = new Promise((resolve, reject) => {
+    child.on('error', reject)
+
+    child.on('exit', code => {
+      if (code === 0) {
+        resolve(stdout)
+      } else {
+        reject(error(stderr, 'spawn child'))
+      }
+    })
+  })
+
+  promise.child = child
+
+  return promise
+}
