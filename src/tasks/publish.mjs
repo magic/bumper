@@ -38,7 +38,7 @@ this error can not be ignored using a cli flag.
 
   try {
     await exec('npm', ['publish'])
-  } catch(e) {
+  } catch (e) {
     log.error(e.code, e.message)
   }
 
