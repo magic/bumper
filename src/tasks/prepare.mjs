@@ -12,7 +12,7 @@ export const prepare = async (state = {}) => {
   const startTime = log.hrtime()
 
   // state.cwd might be set from the cli
-  state.cwd = state.cwd || process.cwd()
+  state.cwd = state.args.cwd || process.cwd()
 
   // package.json
   state.pkgFile = path.join(state.cwd, 'package.json')
