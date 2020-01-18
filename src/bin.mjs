@@ -83,16 +83,16 @@ magic-bumper --install
 const run = async () => {
   const startTime = log.hrtime()
 
-  const { args, commands } = cli(cliArgs)
+  const state = cli(cliArgs)
 
-  if (args.verbose) {
+  if (state.args.verbose) {
     log.setLevel(0)
   } else {
     log.setLevel(1)
   }
 
   try {
-    const result = await bumper({ args, commands })
+    const result = await bumper(state)
 
     log.success('bumper finished.')
   } catch (e) {
