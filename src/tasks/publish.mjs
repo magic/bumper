@@ -10,7 +10,7 @@ const libName = '@magic/bumper.publish'
 
 const expectedChangedFiles = []
 
-export const commit = async state => {
+export const publish = async state => {
   const startTime = log.hrtime()
 
   state = await diff({ ...state, dangerNoDiff: true })
