@@ -12,7 +12,7 @@ export const update = async state => {
   state = await updateDependencies(state)
 
   // make sure user wants to publish
-  if (state.commands.publish && !state.args.noWrite) {
+  if (state.commands.update && !state.args.noWrite) {
     // remove package-lock and node_modules dir.
     // TODO: benchmark diff between this approach
     // and instead running tasks/updateDependencies && npm update && npm install
