@@ -57,6 +57,9 @@ const cliArgs = {
     default: {
       '--cwd': process.cwd(),
     },
+    single: {
+      '--cwd': true,
+    },
     example: `
 magic-bumper version update
 # only output the changes that would be done
