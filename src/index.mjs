@@ -54,6 +54,10 @@ export const bumper = async props => {
     // state = await tasks.push(state)
   }
 
+  if (commands.publish) {
+    state = await tasks.publish(state)
+  }
+
   log.timeTaken(startTime, 'magic-bump took a total of:')
 }
 
