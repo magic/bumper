@@ -7,7 +7,7 @@ import is from '@magic/types'
 import log from '@magic/log'
 import semver from '@magic/semver'
 
-import tasks from './tasks/index.mjs'
+import * as tasks from './tasks/index.mjs'
 
 const libName = '@magic/bumper:'
 
