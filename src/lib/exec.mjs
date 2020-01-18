@@ -6,8 +6,6 @@ import error from '@magic/error'
 export const options = {
   windowsHide: true,
   encoding: 'utf8',
-  // stdio: '',
-  // shell: '/bin/bash',
 }
 
 export const exec = (cmd, args = [], options = {}) => {
@@ -30,6 +28,7 @@ export const exec = (cmd, args = [], options = {}) => {
 
   child.stderr.on('data', data => {
     const str = data.toString()
+    console.log({str});
     if (str.includes('ExperimentalWarning: The ESM module loader is experimental')) {
       return
     }

@@ -11,6 +11,8 @@ const libName = '@magic/bumper.publish'
 const expectedChangedFiles = []
 
 export const commit = async state => {
+  const startTime = log.hrtime()
+
   state = await diff({ ...state, dangerNoDiff: true })
 
   const files = state.diff
@@ -35,6 +37,11 @@ this error can not be ignored using a cli flag.
   }
 
   log.warn('W_TODO', 'add actual npm publish')
+
+  const err = await exec('npm', ['publish'])
+  console.log({ err })
+
+  log.timeTaken(startTime, log.paint.green('npm publish'))
 
   return state
 }
