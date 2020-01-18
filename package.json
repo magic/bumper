@@ -35,7 +35,7 @@
     "url": "https://github.com/magic/bumper/issues"
   },
   "dependencies": {
-    "@magic/cli": "0.0.18",
+    "@magic/cli": "0.0.19",
     "@magic/error": "0.0.3",
     "@magic/fs": "0.0.3",
     "@magic/semver": "0.0.5",
