@@ -28,7 +28,6 @@ export const exec = (cmd, args = [], options = {}) => {
 
   child.stderr.on('data', data => {
     const str = data.toString()
-    console.log({str});
     if (str.includes('ExperimentalWarning: The ESM module loader is experimental')) {
       return
     }
@@ -42,7 +41,7 @@ export const exec = (cmd, args = [], options = {}) => {
   })
 
   const promise = new Promise((resolve, reject) => {
-    child.on('error', reject)
+    child.on('error', e => reject(error(e)))
 
     child.on('exit', code => {
       if (code === 0 && !stderr) {
