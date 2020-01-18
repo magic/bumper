@@ -41,10 +41,10 @@ export const exec = (cmd, args = [], options = {}) => {
   })
 
   const promise = new Promise((resolve, reject) => {
-    child.on('error', e => reject(error(e)))
+    child.on('error', reject)
 
     child.on('exit', code => {
-      if (code === 0 && !stderr) {
+      if (code === 0) {
         resolve(stdout)
       } else {
         reject(error(stderr, 'spawn child'))
