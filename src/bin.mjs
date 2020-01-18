@@ -22,7 +22,7 @@ const cliArgs = {
     '--cwd',
   ],
   commands: [
-    ['version', 'b'],
+    ['version', 'b', 'v'],
     ['update', 'up', 'u'],
     ['merge', 'git', 'm'],
     ['publish', 'p'],
