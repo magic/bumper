@@ -11,7 +11,7 @@ export const test = async state => {
 
   const additional = state.verbose ? '' : '-- -p'
 
-  const result = await exec(`npm run test ${additional}`)
+  const result = await exec('npm', ['run', 'test', additional], { silent: true })
 
   if (result.stderr) {
     const stderr = result.stderr

@@ -10,12 +10,10 @@ export const options = {
   // shell: '/bin/bash',
 }
 
-export const exec = (cmd, options = {}) => {
+export const exec = (cmd, args = [], options = {}) => {
   const { silent = true } = options
 
-  const [command, ...args] = cmd.split(' ').filter(a => a)
-
-  const child = child_process.spawn(command, args, options)
+  const child = child_process.spawn(cmd, args, options)
 
   let stdout = ''
   let stderr = ''
@@ -44,7 +42,7 @@ export const exec = (cmd, options = {}) => {
     child.on('error', reject)
 
     child.on('exit', code => {
-      if (code === 0) {
+      if (code === 0 && !stderr) {
         resolve(stdout)
       } else {
         reject(error(stderr, 'spawn child'))

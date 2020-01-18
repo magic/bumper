@@ -9,7 +9,7 @@ const libName = '@magic/bumper.diff:'
 export const diff = async state => {
   const startTime = log.hrtime()
 
-  let err = await exec('git -c color.ui=always status --short', { silent: true })
+  let err = await exec('git', ['-c', 'color.ui=always', 'status', '--short'], { silent: true })
 
   log.timeTaken(startTime, log.paint.green('diff took'))
 

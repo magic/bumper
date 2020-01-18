@@ -41,13 +41,13 @@ this error can not be ignored using a cli flag.
     throw error(`version can not be reduced. old: ${v.old} new: ${v.new}`, 'E_DEBUMP_VERSION')
   }
 
-  const commitCmd = `git commit -m \'bump version to ${v.new}\' ./package.json ./package-lock.json`
+  const commitArgs = ['commit', '-m', `\'bump version to ${v.new}\'`, './package.json', './package-lock.json']
 
-  const comm = await exec(commitCmd, { silent: false })
+  const comm = await exec('git', commitArgs, { silent: false })
   console.log('commit done', comm)
 
-  const commitTagCmd = `git tag -a v${v.new} -m \'v${v.new}\'`
-  await exec(commitTagCmd, { silent: false })
+  const commitTagArgs = ['tag', '-a', `v${v.new}`, '-m', `\'v${v.new}\'`]
+  await exec('git', commitTagArgs, { silent: false })
   console.log('tag done')
 
   // const push = await exec(`git push`)
