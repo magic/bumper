@@ -6,10 +6,20 @@ import is from '@magic/types'
 import log from '@magic/log'
 import semver from '@magic/semver'
 
+import { httpGet } from '../lib/index.mjs'
+
 const libName = '@magic/bumper.prepare:'
 
 export const prepare = async (state = {}) => {
   const startTime = log.hrtime()
+
+  // make sure we have internet.
+  try {
+    await httpGet('https://wikipedia.org')
+  } catch (e) {
+    log.error('E_NO_NET', 'No internet connection. We will not be able to push, update or publish. Aborting')
+    process.exit(1)
+  }
 
   // state.cwd might be set from the cli
   state.cwd = state.args.cwd || process.cwd()
