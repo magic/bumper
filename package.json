@@ -37,7 +37,7 @@
   "dependencies": {
     "@magic/cli": "0.0.21",
     "@magic/error": "0.0.3",
-    "@magic/fs": "0.0.3",
+    "@magic/fs": "0.0.4",
     "@magic/log": "0.1.3",
     "@magic/semver": "0.0.5",
     "@magic/types": "0.1.10"
